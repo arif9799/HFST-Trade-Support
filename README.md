@@ -6,9 +6,11 @@
 - This Project is a Web App, allowing non-technical user to Analyse Commodity Imports/Exports on the go!
 - The data is accesible via RestAPIs, for the specified Commodity through US Govt. Census Bureau Website
 - Monthly International Trade data is retrieved for Commodities based on HS Code Specified by the user
-- By providing or specifying the HS Code for Commodity of Interest, you can download data on the fly (can also save it as csv) and Perform Analysis as well as Forecasting right off the bat! 
-- The Web Application is hosted on Streamlit Community Cloud, here's the link () but it is very very very slow [Will soon figure a way to deploy on a faster/quicker platform for efficient use]
-- I would recommend running it locally for effective results and smooth experience (instructions to do so, are given below)
+- By providing or specifying the HS Code for Commodity of Interest, you can download data on the fly
+- You can also save the data as csv and Perform Analysis as well as Forecasting right off the bat! 
+- The Web Application is hosted on Streamlit Community Cloud, here's the link
+- Hosted Web-App is very very very slow (Will soon figure a way to deploy on an effecient platform)
+- I would recommend running it locally for smooth experience (instructions for it, are given below)
 
 <br/>
 <br/>
