@@ -34,9 +34,9 @@
 - Download/Fork/Clone this repository on to your local system
 - ```Home.py``` file is the main application that needs to be fired up
 - Run the following command in the directory where ```Home.py``` application resides   
-      - ```console
-          Commodity-Web-Application (directory) % streamlit run Home.py
-      ```
+  - ```console
+      Commodity-Web-Application (directory) % streamlit run Home.py
+  ```
 - The above system step will pop open localhost and you'll have access to the application
 
 <br/>
