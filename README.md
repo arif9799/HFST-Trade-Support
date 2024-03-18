@@ -10,12 +10,19 @@
 - You can also save the data as csv and Perform Analysis as well as Forecasting right off the bat! 
 - The Web Application is hosted on Streamlit Community Cloud, here's the link
 - Hosted Web-App is very very very slow (Will soon figure a way to deploy on an effecient platform)
-- I would recommend running it locally for smooth experience (instructions for it, are given below)
+- I would recommend running it locally for smooth experience (instructions for it, are given below)  
+
+<br/>
+    <div align="center">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/chart.png" width="1000" alt="Description">
+    </div>
+<br/>
 
 <br/>
 <br/>
 <br/>
 <br/>
+
 
 
 <h2>
