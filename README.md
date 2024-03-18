@@ -130,7 +130,7 @@
 **_Commodity Valuations Forecasting:_**
 </h3>
 
-- You can use ARIMA, SARIMA or XGBOOST Algrithms to predict Valuations of Imports/Exports in the near future
+- You can use ARIMA, SARIMA or XGBOOST Algrithms to predict Valuations of Imports/Exports in future
 - You can view the time series data and the forecasts along with prediction intervals on the screen
 - You can also dynamically choose the forecasting horizon (how far would you wanna look into future)?
 - You also have guage meters on the right showcasing how well the models perform based on MAPE
