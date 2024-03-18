@@ -14,7 +14,7 @@
 
 <br/>
     <div align="center">
-      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/chart.png" width="1000" alt="Description">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/chart.png" width="400" alt="Description">
     </div>
 <br/>
 
