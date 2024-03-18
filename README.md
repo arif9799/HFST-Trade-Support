@@ -56,7 +56,7 @@
 
 <br/>
     <div align="center">
-      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/HomePage1.png" width="1200" alt="Description">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/HomePage1.png" width="1000" alt="Description">
     </div>
 <br/>
 
@@ -68,7 +68,7 @@
 <br/>
 <br/>
     <div align="center">
-      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/HomePage2.png" width="1200" alt="Description">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/HomePage2.png" width="1000" alt="Description">
     </div>
 <br/>
 
@@ -87,7 +87,7 @@
 - Refer Image Below:
 <br/>
     <div align="center">
-      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/VisPage1.png" width="1200" alt="Description">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/VisPage1.png" width="1000" alt="Description">
     </div>
 <br/>
 
@@ -96,7 +96,7 @@
 - Refer Image Below:
 <br/>
     <div align="center">
-      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/VisPage2.png" width="1200" alt="Description">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/VisPage2.png" width="1000" alt="Description">
     </div>
 <br/>
 
@@ -105,7 +105,7 @@
 - Refer Image Below:
 <br/>
     <div align="center">
-      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/VisPage3.png" width="1200" alt="Description">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/VisPage3.png" width="1000" alt="Description">
     </div>
 <br/>
 
@@ -129,21 +129,21 @@
 <br/>
 <br/>
     <div align="center">
-      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/fcPage1.png" width="1200" alt="Description">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/fcPage1.png" width="1000" alt="Description">
     </div>
 <br/>
 
 <br/>
 <br/>
     <div align="center">
-      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/fcPage2.png" width="1200" alt="Description">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/fcPage2.png" width="1000" alt="Description">
     </div>
 <br/>
 
 <br/>
 <br/>
     <div align="center">
-      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/fcPage3.png" width="1200" alt="Description">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/fcPage3.png" width="1000" alt="Description">
     </div>
 <br/>
 
