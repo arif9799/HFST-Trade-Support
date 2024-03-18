@@ -58,9 +58,9 @@
 **_Starting off by downloading the data first:_**
 </h3>
 
-- The following steps will show you how to navigate and make the best use of the Commodities Trading Web Application
-- When you fire up the Web Application, you'll land on Home Page where you can specify details of the commodity to download its data
-- You have to mention the exact 2,4,6 or 10 digit HS Code along with HS Level and Summarization Level and timeframe for which you want the data
+- The following steps will show you how to navigate and make best use of the Commodities Trading Web App
+- When you fire it up, you'll land on Home Page where you can specify commodity details to download data
+- You have to mention exact 2,4,6 or 10 digit HS Code along with HS Level, Summarization Level and timeframe 
 - Refer the image Below for better understanding of how to download the data
 
 <br/>
