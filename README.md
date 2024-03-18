@@ -71,8 +71,10 @@
 
 <br/>
 <br/>
+
 - Once the data has been downloaded, you can preview it in the same tab (and even download it as csv)
-- Preview of a successful retrieval of data on the fly is as follows  
+- Preview of a successful retrieval of the commodity data on the fly is as follows  
+
 
 <br/>
 <br/>
@@ -90,9 +92,9 @@
 **_Performing Visual Analysis:_**
 </h3>
 
-- Once you have the data, switch to Visual Analysis Page for performing intutive and visual inspection of the data
+- Once you have data, switch to Visual Analysis Page for performing intutive and visual inspection
 - You have Sankey charts to view the flow of Imports into the states and exports out of the states
-- You can also tweak top k countries (trade partners of United States) and top n states in USA that execute International Trade
+- You can tweak top k countries (trade partners) and top n states of USA that do International Trade
 - Refer Image Below:
 <br/>
     <div align="center">
