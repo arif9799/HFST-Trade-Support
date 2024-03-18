@@ -8,7 +8,7 @@
 - Monthly International Trade data is retrieved for Commodities based on HS Code Specified by the user
 - By providing or specifying the HS Code for Commodity of Interest, you can download data on the fly
 - You can also save the data as csv and Perform Analysis as well as Forecasting right off the bat! 
-- The Web Application is hosted on Streamlit Community Cloud, here's the link
+- The Web Application is hosted on Streamlit Community Cloud, here's the [link](https://commodity-web-application-neib5d5d3dt6ztmwoqupcr.streamlit.app/)
 - Hosted Web-App is very very very slow (Will soon figure a way to deploy on an effecient platform)
 - I would recommend running it locally for smooth experience (instructions for it, are given below)  
 
