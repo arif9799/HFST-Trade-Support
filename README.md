@@ -3,7 +3,7 @@
 **_Project Description:_**
 </h2>
 
-- This Project provides a Web Application, a peculiar front end that lets a non-technical user, who is interested in Commodities Trading, Analyse Imports and Exports of any Commodity on the go!
+- This Project provides a Web Appl, front end that lets non-technical user, Analyse Imports/Exports of any Commodity on the go!
 - The data is accesible via RestAPIs, retrieving Imports/Exports information or Monthly Internation Trade data for the specified Commodity in United States via US Govt. Census Bureau Website
 - By providing or specifying the HS Code for Commodity of Interest, you can download data on the fly (can also save it as csv) and Perform Analysis as well as Forecasting right off the bat! 
 - The Web Application is hosted on Streamlit Community Cloud, here's the link () but it is very very very slow [Will soon figure a way to deploy on a faster/quicker platform for efficient use]
