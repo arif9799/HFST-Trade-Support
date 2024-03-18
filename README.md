@@ -36,7 +36,6 @@
 - Run the following command in the directory where ```Home.py``` application resides   
   - ```console
       Commodity-Web-Application (directory) % streamlit run Home.py
-  ```
 - The above system step will pop open localhost and you'll have access to the application
 
 <br/>
