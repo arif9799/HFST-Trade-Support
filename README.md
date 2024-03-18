@@ -65,7 +65,7 @@
 
 <br/>
     <div align="center">
-      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/HomePage1.png" width="1000" alt="Description">
+      <img src="https://github.com/arif9799/Commodity-Web-Application/blob/main/images/HomePage1.png" width="1200" alt="Description">
     </div>
 <br/>
 
