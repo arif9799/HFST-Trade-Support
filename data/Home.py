@@ -23,7 +23,6 @@ st.set_page_config(
     }
 )
 
-
 @dataclass
 class data:
     host: str 
@@ -32,7 +31,6 @@ class data:
     im: str
     ex: str
     clsf: str
-
 
 class DataRetriever:
     @staticmethod
@@ -57,7 +55,6 @@ class DataRetriever:
             DF = None
     
         return DF, RESULTS
-
 
 class TradeDataFilter:
     def __init__(self, data_frame):
@@ -95,6 +92,83 @@ class TradeDataFilter:
         else:
             return filtered_data.reset_index(drop=True)
 
+def prepareData(ID, ED):
+    """
+    ID: Import Data
+    ED: Export Data
+    """
+    ectypes = {
+        'E_COMMODITY_SDESC' : str,
+        'COMM_LVL' : str,
+        'DISTRICT': int,
+        'DIST_NAME': str,
+        'CTY_CODE': int,
+        'CTY_NAME': str,
+        'ALL_VAL_MO':np.int64,
+        'YEAR': int,
+        'MONTH':int,
+        'E_COMMODITY':np.int64,
+        'SUMMARY_LVL': str,
+        'SUMMARY_LVL2': str
+    }
+
+    ictypes = {
+        'I_COMMODITY_SDESC' : str,
+        'COMM_LVL' : str,
+        'DISTRICT': int,
+        'DIST_NAME': str,
+        'CTY_CODE': int,
+        'CTY_NAME': str,
+        'GEN_VAL_MO':np.int64,
+        'CON_VAL_MO':np.int64,
+        'YEAR': int,
+        'MONTH':int,
+        'I_COMMODITY':np.int64,
+        'SUMMARY_LVL': str,
+        'SUMMARY_LVL2': str
+    }
+
+    # Convert data types accordingly
+    ED = ED.astype(ectypes)
+
+    # Convert data types accordingly
+    ID = ID.astype(ictypes)
+
+    ID['US_STATE'] = ID.DIST_NAME.apply(TradeDataFilter.extract_state)
+    ED['US_STATE'] = ED.DIST_NAME.apply(TradeDataFilter.extract_state)
+
+    ID['CTYi'] = ID.CTY_NAME.apply(lambda x: x + '(i)')
+    ED['CTYe'] = ED.CTY_NAME.apply(lambda x: x + '(e)')
+
+    ID['Date'] = pd.to_datetime(ID.YEAR.astype(str) + '-' + ID.MONTH.astype(str), format='%Y-%m')
+    ED['Date'] = pd.to_datetime(ED.YEAR.astype(str) + '-' + ED.MONTH.astype(str), format='%Y-%m')
+
+    return ID, ED
+
+class TimeSeriesAnalyzer:
+    def __init__(self, data, seasonal=True, m=12, trace=True, suppress_warnings=True):
+        self.data = data
+        self.seasonal = seasonal
+        self.m = m
+        self.trace = trace
+        self.suppress_warnings = suppress_warnings
+        self.best_arima_order = None
+        self.best_sarima_order = None
+
+    def find_best_orders(self):
+        stepwise_fit = auto_arima(self.data, 
+                                  seasonal=self.seasonal,
+                                  m=self.m,
+                                  trace=self.trace,
+                                  suppress_warnings=self.suppress_warnings)
+
+        # Get the best ARIMA and SARIMA orders
+        self.best_arima_order = stepwise_fit.get_params()['order']
+        self.best_sarima_order = stepwise_fit.get_params()['seasonal_order']
+
+    def display_best_orders(self):
+        print("Best ARIMA Order:", self.best_arima_order)
+        print("Best SARIMA Order:", self.best_sarima_order)
 
 
 d = data(
@@ -106,14 +180,36 @@ d = data(
             clsf='hs'
          )
 
+IVARIABLES = ['I_COMMODITY_SDESC',
+            'DISTRICT',
+            'DIST_NAME',
+            'CTY_CODE',
+            'CTY_NAME',
+            'GEN_VAL_MO', 
+            'CON_VAL_MO'
+            ]
+
+EVARIABLES = ['E_COMMODITY_SDESC',
+            'DISTRICT',
+            'DIST_NAME',
+            'CTY_CODE',
+            'CTY_NAME',
+            'ALL_VAL_MO'
+            ]
+
+hsOptions = {"HS2 (if you enetered 2 digit HS Code): Chapter Number": "HS2",
+                "HS4 (if you enetered 4 digit HS Code): Heading ": "HS4",
+                "HS6 (if you enetered 6 digit HS Code): Sub-Heading": "HS6",
+                "HS10 (if you enetered 10 digit HS Code): Product-ID": "HS10"}
+
+smOptions = {"DET (Summarization of Individual Country Import/Export Values)": "DET",
+                "CGP (Summarization of Grouped Countries Import/Export Values, example European Union)": "CGP"}
+
 importUrl =  "/".join([d.host, d.dataHost, d.im, d.clsf] )
 exportUrl =  "/".join([d.host, d.dataHost, d.ex, d.clsf] )
 
 
-
-
 st.sidebar.title('What all you can do!')
-
 st.title("⌂ Commodities Trading with AI!")
 st.write("Download some data here!")
 st.text("Monthly International Trade Time Series Data!")
@@ -127,7 +223,6 @@ Census Bureau Website. It provides International Monthly Trade Time Series
 Data. We'll fetch imports and exports valuations for the HS Code you ask 
 for, within the timeframe you specified""")
 
-    
     #-------------------------------------------- HS CODE INPUT ----------------------------------------------------------------
     st.write("")
     commCode = st.number_input("Insert Harmonized System (HS) Code ",
@@ -137,34 +232,25 @@ for, within the timeframe you specified""")
                                     placeholder='Lets keep 27 default for now',
                                     help='It could be 2 digit Chapter Number, 4 digit Heading number, 6 digit Sub-Heading or 10 digit exact Product ID')
 
-
     #-------------------------------------------- HS LEVEL INPUT ----------------------------------------------------------------
     st.write("")
-    hsOptions = {"HS2 (if you enetered 2 digit HS Code): Chapter Number": "HS2",
-                "HS4 (if you enetered 4 digit HS Code): Heading ": "HS4",
-                "HS6 (if you enetered 6 digit HS Code): Sub-Heading": "HS6",
-                "HS10 (if you enetered 10 digit HS Code): Product-ID": "HS10"}
-
     commLevel = st.selectbox(
-    "Select HS Level",
-    options=hsOptions.keys(),
-    index=None,
-    placeholder="Select HS Level...",
-    key='commLevel'
+                                "Select HS Level",
+                                options=hsOptions.keys(),
+                                index=None,
+                                placeholder="Select HS Level...",
+                                key='commLevel'                           
     )
 
     #-------------------------------------------- INDIVIDUAL/ GROUPED COUNTRIES LEVEL ----------------------------------------------------------------
     st.write("")
-    smOptions = {"DET (Summarization of Individual Country Import/Export Values)": "DET",
-                "CGP (Summarization of Grouped Countries Import/Export Values, example European Union)": "CGP"}
     smLevel = st.selectbox(
-    "Select Summarization",
-    options=smOptions.keys(),
-    index=None,
-    placeholder="Select Summary Level...",
-    key='smLevel'
+                "Select Summarization",
+                options=smOptions.keys(),
+                index=None,
+                placeholder="Select Summary Level...",
+                key='smLevel'
     )
-
 
     #-------------------------------------------- DATE RANGE ----------------------------------------------------------------
     st.write("")
@@ -173,7 +259,6 @@ for, within the timeframe you specified""")
     col1, col2 = st.columns([1,1])
     startYear = col1.selectbox('Start Year', range(2013, datetime.datetime.now().year + 1))
     endYear = col2.selectbox('End Year', range(2013, datetime.datetime.now().year + 1))
-
 
     # Every form must have a submit button.
     st.write("")
@@ -189,19 +274,11 @@ if submitted:
         st.error('End Year Cannot be before Start Year')
     else:
         with st.spinner('Fetching the Data, it may take several minutes'):
-            st.session_state['bestOrdersFlag'] = False
-            VARIABLES = [
-                        'I_COMMODITY_SDESC',
-                        'DISTRICT',
-                        'DIST_NAME',
-                        'CTY_CODE',
-                        'CTY_NAME',
-                        'GEN_VAL_MO', 
-                        'CON_VAL_MO'
-                        ]
+            st.session_state['freshDataFlag'] = True
+
 
             PREDICATES = {}
-            PREDICATES['get'] = ",".join(VARIABLES)
+            PREDICATES['get'] = ",".join(IVARIABLES)
             PREDICATES['YEAR'] = [str(i) for i in range(startYear,endYear+1)]
             PREDICATES['MONTH'] = [str(i).zfill(2) for i in range(1,13)]
             PREDICATES['I_COMMODITY'] = str(commCode).zfill(2)
@@ -212,17 +289,8 @@ if submitted:
             ImportsData, _ = dr.retrieve_data(url= importUrl, predicates=PREDICATES)
 
 
-            VARIABLES = [
-                        'E_COMMODITY_SDESC',
-                        'DISTRICT',
-                        'DIST_NAME',
-                        'CTY_CODE',
-                        'CTY_NAME',
-                        'ALL_VAL_MO'
-                        ]
-
             PREDICATES = {}
-            PREDICATES['get'] = ",".join(VARIABLES)
+            PREDICATES['get'] = ",".join(EVARIABLES)
             PREDICATES['YEAR'] = [str(i) for i in range(startYear,endYear+1)]
             PREDICATES['MONTH'] = [str(i).zfill(2) for i in range(1,13)]
             PREDICATES['E_COMMODITY'] = str(commCode).zfill(2)
@@ -232,58 +300,12 @@ if submitted:
 
             ExportsData, _ = dr.retrieve_data(url= exportUrl, predicates=PREDICATES)
 
-        
-        ectypes = {
-            'E_COMMODITY_SDESC' : str,
-            'COMM_LVL' : str,
-            'DISTRICT': int,
-            'DIST_NAME': str,
-            'CTY_CODE': int,
-            'CTY_NAME': str,
-            'ALL_VAL_MO':np.int64,
-            'YEAR': int,
-            'MONTH':int,
-            'E_COMMODITY':np.int64,
-            'SUMMARY_LVL': str,
-            'SUMMARY_LVL2': str
-        }
-
-        ictypes = {
-            'I_COMMODITY_SDESC' : str,
-            'COMM_LVL' : str,
-            'DISTRICT': int,
-            'DIST_NAME': str,
-            'CTY_CODE': int,
-            'CTY_NAME': str,
-            'GEN_VAL_MO':np.int64,
-            'CON_VAL_MO':np.int64,
-            'YEAR': int,
-            'MONTH':int,
-            'I_COMMODITY':np.int64,
-            'SUMMARY_LVL': str,
-            'SUMMARY_LVL2': str
-        }
-
-        # Convert data types accordingly
-        ExportsData = ExportsData.astype(ectypes)
-
-        # Convert data types accordingly
-        ImportsData = ImportsData.astype(ictypes)
-
-        ImportsData['US_STATE'] = ImportsData.DIST_NAME.apply(TradeDataFilter.extract_state)
-        ExportsData['US_STATE'] = ExportsData.DIST_NAME.apply(TradeDataFilter.extract_state)
-
-        ImportsData['CTYi'] = ImportsData.CTY_NAME.apply(lambda x: x + '(i)')
-        ExportsData['CTYe'] = ExportsData.CTY_NAME.apply(lambda x: x + '(e)')
-
-        ImportsData['Date'] = pd.to_datetime(ImportsData.YEAR.astype(str) + '-' + ImportsData.MONTH.astype(str), format='%Y-%m')
-        ExportsData['Date'] = pd.to_datetime(ExportsData.YEAR.astype(str) + '-' + ExportsData.MONTH.astype(str), format='%Y-%m')
-
-        
+        st.session_state['Imports'], st.session_state['Exports'] = prepareData(ImportsData.copy(deep=True), ExportsData.copy(deep=True))
+ 
         st.success("Data Retrieved, you can proceed for Analysis, and you can take a copy as well, by clicking Dwonload as CSV button on the top right corner of the table")
-        st.session_state['Imports'] = ImportsData
-        st.session_state['Exports'] = ExportsData
+        
         st.write("Imports Data")
-        st.dataframe(ImportsData, use_container_width=True)
+        st.dataframe(st.session_state['Imports'], use_container_width=True)
+
         st.write("Exports Data")
-        st.dataframe(ExportsData, use_container_width=True)
+        st.dataframe(st.session_state['Exports'], use_container_width=True)

@@ -14,7 +14,6 @@ class data:
     I: object
     E: object
 
-
 class SankeyTradeAnalysis:
     def __init__(self, k=3, n=10):
         self.k = k
@@ -149,8 +148,6 @@ class SankeyTradeAnalysis:
                                            linksDict=linksDict, 
                                            title=title)
 
-
-
 class DonutChartCreator:
     def __init__(self, data, value, loc):
         self.data = data
@@ -195,7 +192,6 @@ class DonutChartCreator:
 
         # fig.show("svg")
         return fig
-
 
 class TimeSeriesVisualizer:
     def __init__(self):
@@ -243,21 +239,16 @@ class TimeSeriesVisualizer:
 
         return fig
 
-
-
 st.set_page_config(
     page_title="Analysis", 
     page_icon="Images/dashboard.png",
-    layout = 'wide'
-
-)
+    layout = 'wide')
 
 if "Imports" not in st.session_state and "Exports" not in st.session_state:
     st.title("Get some data first! Go to Home Page and Download it!")
 
 else:
-    d = data(I = st.session_state['Imports'],
-            E = st.session_state['Exports'])
+    d = data(I = st.session_state['Imports'], E = st.session_state['Exports'])
 
     ################################################################################################################################################################################################
     tab1, tab2, tab3 = st.tabs(['Sankey Charts', 'Donut Charts', 'Time Series Charts'])

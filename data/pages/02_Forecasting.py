@@ -15,6 +15,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score, r
 from scipy.stats import norm
 import xgboost
 from xgboost import XGBRegressor
+import plotly.graph_objects as go
 
 
 @dataclass
@@ -115,7 +116,6 @@ class ForecastPlot:
 
         return fig
     
-
 class TimeSeriesAnalyzer:
     def __init__(self, data, seasonal=True, m=12, trace=True, suppress_warnings=True):
         self.data = data
@@ -140,7 +140,6 @@ class TimeSeriesAnalyzer:
     def display_best_orders(self):
         print("Best ARIMA Order:", self.best_arima_order)
         print("Best SARIMA Order:", self.best_sarima_order)
-
 
 class SARIMAModel(ForecastPlot):
     
@@ -183,7 +182,6 @@ class SARIMAModel(ForecastPlot):
                               confidence_intervals.iloc[:, 0], confidence_intervals.iloc[:, 1],
                               title=title, xlabel=xlabel)
 
-
 class ARIMAModel(ForecastPlot):
     
     def __init__(self, data, column, split=0.8):
@@ -222,44 +220,6 @@ class ARIMAModel(ForecastPlot):
         return super().plot_forecast(self.data[self.rvColumn], forecast_values, 
                               confidence_intervals.iloc[:, 0], confidence_intervals.iloc[:, 1],
                               title=title, xlabel=xlabel)
-    
-
-import plotly.graph_objects as go
-
-def create_circular_percentage_chart(percentage, title='Circular Percentage Chart'):
-    # Create the figure for the circular gauge
-    fig = go.Figure(go.Indicator(
-        mode="gauge+number",  # Set the mode to display gauge and number
-        value=percentage,  # Set the value (percentage) to be displayed
-        title={'text': title, 'font': {'size': 20}},  # Set the title of the chart with larger font size
-        gauge={'axis': {'range': [None, 100], 'tickwidth': 2, 'tickcolor': "gray", 'ticklen': 10, 'tickfont': {'size': 12}},  # Customize the axis ticks
-               'bar': {'color': "#842D78"},  # Set the color of the gauge bar
-               'bgcolor': "#DD517F",  # Set the background color of the gauge
-               'borderwidth': 2,  # Set the border width
-               'bordercolor': "#DD517F",  # Set the border color
-               'steps': [
-                   {'range': [0, 100], 'color': "#FFB845"}],  # Set the color range for the gauge
-               'threshold': {'line': {'color': "#F08D7E", 'width': 4},  # Set the threshold line color and width
-                             'thickness': 0.6,  # Set the thickness of the threshold line
-                             'value': percentage}}  # Set the threshold value (same as percentage)
-    ))
-
-    # Update layout properties for the figure
-    fig.update_layout(
-        height=300,  # Set the height of the chart
-        width=300,  # Set the width of the chart
-        margin=dict(t=50, b=50, l=50, r=50),  # Set margins for better spacing
-        font={'color': 'black', 'family': 'Arial'},  # Set font color and family
-        plot_bgcolor='rgba(0,0,0,0)',  # Set plot background color
-        paper_bgcolor='rgba(0,0,0,0)',  # Set paper background color
-    )
-
-    # Show the chart
-    return fig
-
-
-
-
 
 class XGBoostForecast(ForecastPlot):
     def __init__(self, data, targetColumn, lags=5, split_percent=0.8):
@@ -306,7 +266,7 @@ class XGBoostForecast(ForecastPlot):
         self.mae_error = mean_absolute_error(y_test, y_pred)
         self.mse_error = mean_squared_error(y_test, y_pred)
         self.r2 = r2_score(y_test, y_pred)
-        self.rmse = mean_squared_error(y_test, y_pred, squared=False)
+        self.rmse = root_mean_squared_error(y_test, y_pred)
         self.mape = mean_absolute_percentage_error(y_test, y_pred)
         # Calculate standard error
         residuals = y_test - y_pred
@@ -343,33 +303,44 @@ class XGBoostForecast(ForecastPlot):
                               lower_bound=self.lBound,
                               upper_bound=self.uBound)
 
+def create_circular_percentage_chart(percentage, title='Circular Percentage Chart'):
+    # Create the figure for the circular gauge
+    fig = go.Figure(go.Indicator(
+        mode="gauge+number",  # Set the mode to display gauge and number
+        value=percentage,  # Set the value (percentage) to be displayed
+        title={'text': title, 'font': {'size': 20}},  # Set the title of the chart with larger font size
+        gauge={'axis': {'range': [None, 100], 'tickwidth': 2, 'tickcolor': "gray", 'ticklen': 10, 'tickfont': {'size': 12}},  # Customize the axis ticks
+               'bar': {'color': "#842D78"},  # Set the color of the gauge bar
+               'bgcolor': "#DD517F",  # Set the background color of the gauge
+               'borderwidth': 2,  # Set the border width
+               'bordercolor': "#DD517F",  # Set the border color
+               'steps': [
+                   {'range': [0, 100], 'color': "#FFB845"}],  # Set the color range for the gauge
+               'threshold': {'line': {'color': "#F08D7E", 'width': 4},  # Set the threshold line color and width
+                             'thickness': 0.6,  # Set the thickness of the threshold line
+                             'value': percentage}}  # Set the threshold value (same as percentage)
+    ))
+
+    # Update layout properties for the figure
+    fig.update_layout(
+        height=300,  # Set the height of the chart
+        width=300,  # Set the width of the chart
+        margin=dict(t=50, b=50, l=50, r=50),  # Set margins for better spacing
+        font={'color': 'black', 'family': 'Arial'},  # Set font color and family
+        plot_bgcolor='rgba(0,0,0,0)',  # Set plot background color
+        paper_bgcolor='rgba(0,0,0,0)',  # Set paper background color
+    )
+
+    # Show the chart
+    return fig
+
+
+
+
+
 
 
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -391,7 +362,7 @@ else:
     filteredDataI = pd.DataFrame(d.I.groupby(['Date']).sum()[rvColImports])
     filteredDataE = pd.DataFrame(d.E.groupby(['Date']).sum()[rvColExports])
 
-    if st.session_state['bestOrdersFlag'] is False:
+    if st.session_state['freshDataFlag'] is True:
         with st.spinner('Determining Best orders for Time Series Models, on the current Data! Orders (p, d, q)'):
             tsANA_E = TimeSeriesAnalyzer(filteredDataE[rvColExports])
             tsANA_E.find_best_orders()
@@ -401,15 +372,13 @@ else:
             tsANA_I.find_best_orders()
             st.session_state['tsANA_I'] = tsANA_I
 
-            st.session_state['bestOrdersFlag'] = True
+            st.session_state['freshDataFlag'] = False
 
 
     ################################################################################################################################################################################################
     tab1, tab2, tab3 = st.tabs(['ARIMA', 'SARIMA', 'XGBOOST'])
 
     with tab1:
-
-        
 
 
         tsE = st.session_state['tsANA_E']
@@ -472,8 +441,6 @@ else:
         c1.plotly_chart(f, use_container_width=True)
         p = create_circular_percentage_chart(100 - (arm.mape*100), title='How good is the model')
         c2.plotly_chart(p, use_container_width=True)
-
-
 
     with tab3:
 
