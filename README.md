@@ -1,7 +1,34 @@
-<h2>
+<p align="center">
+  
+  ___
+</p>
+<br>
+
+<h3 align="center">
+  
+  [_Trade Support, Random Foreset and XGBoost_](https://huggingface.co/spaces/arif97/tradeSupportv2)
+</h3>
+<br>
+
+
+<h4 align="center">
+  <a href="https://huggingface.co/spaces/arif97/tradeSupportv2">Visit the Application</a>
+</h4>
+<br>
+
+<h4 align="center">
+  <a href="https://huggingface.co/spaces/arif97/tradeSupportv2">Link to Code and Files</a>
+</h4>
+<br>
+
+
+<table align="center">
+  <tr align="center">
+    <td><img src="https://huggingface.co/spaces/arif97/tradeSupportv2/resolve/main/images/Comm.gif" width="500" alt="RAG"></td>
     
-**_Project Description:_**
-</h2>
+  </tr>
+</table>
+<br>
 
 - This Project is a Web App, allowing non-technical user to Analyse Commodity Imports/Exports on the go!
 - The data is accesible via RestAPIs, for the specified Commodity through US Govt. Census Bureau Website
